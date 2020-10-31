@@ -699,4 +699,61 @@ class Payment extends BaseResource
 
         return 0.0;
     }
+    
+    /**
+     * Get the method costs, calculated based on the current pricing
+     *
+     * @return array $costs
+     */
+    public function getCosts()
+    {
+        if ($this->status !== 'paid') {
+            throw new ApiException('Pricing not availble, status is ' . $this->status);
+        }
+
+        $pricing = $this->client->methods->get(
+            $this->method,
+            ['include' => 'pricing']
+        )->pricing();
+
+        $costs = new \StdClass();
+
+        // Calculate the costs for payment
+        $paymentCost = 0;
+
+        $methodPrice = null;
+        if ($this->method == 'creditcard') {
+            if ($this->details->feeRegion == 'american-express') {
+                $methodPrice = $pricing->get('American Express');
+            } elseif ($this->details->feeRegion == 'intra-eu') {
+                $methodPrice = $pricing->get('European cards');
+            } else {
+                $methodPrice = $pricing->get('Commercial & non-European cards');
+            }
+        } elseif ($this->method == 'giropay') {
+            $methodPrice = $pricing->get('Germany');
+        } elseif ($this->method == 'sofort') {
+            $methodPrice = $pricing->get('Germany');
+        } elseif ($this->method == 'paypal') {
+            $methodPrice = $pricing->get('Germany');
+        } else {
+            throw new ApiException('Unrecognized method: ' . $this->method);
+        }
+
+        if ($methodPrice === null) {
+            throw new ApiException('Pricing not found for method ' . $this->method);
+        }
+
+        $amount = $this->amount->value;
+        $costs->payment = $methodPrice->fixed->value + round($amount * $methodPrice->variable / 100, 3);
+
+        /**
+         * Calculate the costs for refund
+         *
+         * FIXME: there is no way for now to find the pricing of a refund
+         */
+        $costs->refund = 0;
+
+        return $costs;
+    }
 }
