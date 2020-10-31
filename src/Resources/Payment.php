@@ -701,11 +701,11 @@ class Payment extends BaseResource
     }
     
     /**
-     * Get the method costs, calculated based on the current pricing
+     * Get the method cost, calculated based on the current pricing
      *
-     * @return array $costs
+     * @return array $cost
      */
-    public function getCosts()
+    public function getCost()
     {
         if ($this->status !== 'paid') {
             throw new ApiException('Pricing not availble, status is ' . $this->status);
@@ -716,10 +716,7 @@ class Payment extends BaseResource
             ['include' => 'pricing']
         )->pricing();
 
-        $costs = new \StdClass();
-
-        // Calculate the costs for payment
-        $paymentCost = 0;
+        $cost = 0;
 
         $methodPrice = null;
         if ($this->method == 'creditcard') {
@@ -733,9 +730,9 @@ class Payment extends BaseResource
         } elseif ($this->method == 'giropay') {
             $methodPrice = $pricing->get('Germany');
         } elseif ($this->method == 'sofort') {
-            $methodPrice = $pricing->get('Germany');
+            $methodPrice = $pricing->get('Europe');
         } elseif ($this->method == 'paypal') {
-            $methodPrice = $pricing->get('Germany');
+            $methodPrice = $pricing->get('Worldwide');
         } else {
             throw new ApiException('Unrecognized method: ' . $this->method);
         }
@@ -745,15 +742,8 @@ class Payment extends BaseResource
         }
 
         $amount = $this->amount->value;
-        $costs->payment = $methodPrice->fixed->value + round($amount * $methodPrice->variable / 100, 3);
+        $cost = $methodPrice->fixed->value + round($amount * $methodPrice->variable / 100, 3);
 
-        /**
-         * Calculate the costs for refund
-         *
-         * FIXME: there is no way for now to find the pricing of a refund
-         */
-        $costs->refund = 0;
-
-        return $costs;
+        return (float) $cost;
     }
 }
