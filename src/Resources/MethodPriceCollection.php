@@ -26,6 +26,7 @@ class MethodPriceCollection extends BaseCollection
                 return $methodPrice;
             }
         }
+
         return null;
     }
 }
