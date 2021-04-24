@@ -11,7 +11,7 @@ class MethodPriceCollection extends BaseCollection
     {
         return null;
     }
-    
+
     /**
      * Get a specific MethodPrice.
      * Returns null if the MethodPrice cannot be found.

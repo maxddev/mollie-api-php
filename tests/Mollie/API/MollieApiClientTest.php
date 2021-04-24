@@ -20,11 +20,11 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
      */
     private $mollieApiClient;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->guzzleClient    = $this->createMock(Client::class);
+        $this->guzzleClient = $this->createMock(Client::class);
         $this->mollieApiClient = new MollieApiClient($this->guzzleClient);
 
         $this->mollieApiClient->setApiKey('test_foobarfoobarfoobarfoobarfoobar');
@@ -116,7 +116,7 @@ class MollieApiClientTest extends \PHPUnit\Framework\TestCase
         $this->mollieApiClient->setApiEndpoint("https://mymollieproxy.local");
         $serialized = \serialize($this->mollieApiClient);
 
-        $this->assertNotContains('test_foobarfoobarfoobarfoobarfoobar', $serialized, "API key should not be in serialized data or it will end up in caches.");
+        $this->assertStringNotContainsString('test_foobarfoobarfoobarfoobarfoobar', $serialized, "API key should not be in serialized data or it will end up in caches.");
 
         /** @var MollieApiClient $client_copy */
         $client_copy = Liberator::liberate(unserialize($serialized));
