@@ -36,7 +36,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    const CLIENT_VERSION = "2.32.2";
+    const CLIENT_VERSION = "2.34.0";
 
     /**
      * Endpoint of the remote API.
@@ -449,6 +449,10 @@ class MollieApiClient
             'Authorization' => "Bearer {$this->apiKey}",
             'User-Agent' => $userAgent,
         ];
+
+        if ($httpBody !== null) {
+            $headers['Content-Type'] = "application/json";
+        }
 
         if (function_exists("php_uname")) {
             $headers['X-Mollie-Client-Info'] = php_uname();
