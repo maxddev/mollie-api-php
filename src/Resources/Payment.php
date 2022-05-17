@@ -811,7 +811,7 @@ class Payment extends BaseResource
         }
 
         if ($methodPrice === null) {
-            throw new ApiException('Pricing not found for method ' . $this->method);
+            throw new ApiException('Pricing not found for method ' . $this->method . '; feeRegion: ' . $this->details->feeRegion . '; pricing: ' . serialize($pricing));
         }
 
         $amount = $this->amount->value;
