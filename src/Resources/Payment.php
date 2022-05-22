@@ -791,10 +791,18 @@ class Payment extends BaseResource
 
         $methodPrice = null;
         if ($this->method == 'creditcard') {
-            if ($this->details->feeRegion == 'american-express') {
+            if ($this->details->feeRegion == 'amex') {
                 $methodPrice = $pricing->get('American Express');
-            } elseif ($this->details->feeRegion == 'intra-eu') {
-                $methodPrice = $pricing->get('European cards');
+            } elseif ($this->details->feeRegion == 'amex-intra-eea') {
+                $methodPrice = $pricing->get('American Express (intra-EEA)');
+            } elseif ($this->details->feeRegion == 'domestic') {
+                $methodPrice = $pricing->get('Domestic consumer cards');
+            } elseif ($this->details->feeRegion == 'intra-eu-corporate') {
+                $methodPrice = $pricing->get('European commercial cards');  
+            } elseif ($this->details->feeRegion == 'eu-cards' || $this->details->feeRegion == 'intra-eu') {
+                $methodPrice = $pricing->get('European consumer cards');  
+            /*} elseif ($this->details->feeRegion == 'intra-eu') {
+                $methodPrice = $pricing->get('European cards');*/
             } else {
                 $methodPrice = $pricing->get('Commercial & non-European cards');
             }
