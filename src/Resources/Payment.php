@@ -798,9 +798,9 @@ class Payment extends BaseResource
             } elseif ($this->details->feeRegion == 'domestic') {
                 $methodPrice = $pricing->get('Domestic consumer cards');
             } elseif ($this->details->feeRegion == 'intra-eu-corporate') {
-                $methodPrice = $pricing->get('European commercial cards');  
+                $methodPrice = $pricing->get('European commercial cards');
             } elseif ($this->details->feeRegion == 'eu-cards' || $this->details->feeRegion == 'intra-eu') {
-                $methodPrice = $pricing->get('European consumer cards');  
+                $methodPrice = $pricing->get('European consumer cards');
             /*} elseif ($this->details->feeRegion == 'intra-eu') {
                 $methodPrice = $pricing->get('European cards');*/
             } else {
