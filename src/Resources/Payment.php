@@ -801,8 +801,8 @@ class Payment extends BaseResource
                 $methodPrice = $pricing->get('European commercial cards');
             } elseif ($this->details->feeRegion == 'eu-cards' || $this->details->feeRegion == 'intra-eu') {
                 $methodPrice = $pricing->get('European consumer cards');
-            /*} elseif ($this->details->feeRegion == 'intra-eu') {
-                $methodPrice = $pricing->get('European cards');*/
+                /*} elseif ($this->details->feeRegion == 'intra-eu') {
+                    $methodPrice = $pricing->get('European cards');*/
             } else {
                 $methodPrice = $pricing->get('Commercial & non-European cards');
             }
