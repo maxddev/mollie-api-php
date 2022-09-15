@@ -6,7 +6,6 @@ use Mollie\Api\HttpAdapter\MollieHttpAdapterInterface;
 
 class FakeHttpAdapter implements MollieHttpAdapterInterface
 {
-
     /**
      * @var \stdClass|null
      */
@@ -35,7 +34,7 @@ class FakeHttpAdapter implements MollieHttpAdapterInterface
 
     /**
      * FakeHttpAdapter constructor.
-     * @param \stdClass|null $response
+     * @param \stdClass|null|\GuzzleHttp\Psr7\Response $response
      */
     public function __construct($response)
     {
