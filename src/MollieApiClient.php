@@ -7,6 +7,7 @@ use Mollie\Api\Endpoints\BalanceReportEndpoint;
 use Mollie\Api\Endpoints\BalanceTransactionEndpoint;
 use Mollie\Api\Endpoints\ChargebackEndpoint;
 use Mollie\Api\Endpoints\ClientEndpoint;
+use Mollie\Api\Endpoints\ClientLinkEndpoint;
 use Mollie\Api\Endpoints\CustomerEndpoint;
 use Mollie\Api\Endpoints\CustomerPaymentsEndpoint;
 use Mollie\Api\Endpoints\InvoiceEndpoint;
@@ -33,6 +34,7 @@ use Mollie\Api\Endpoints\SettlementPaymentEndpoint;
 use Mollie\Api\Endpoints\SettlementsEndpoint;
 use Mollie\Api\Endpoints\ShipmentEndpoint;
 use Mollie\Api\Endpoints\SubscriptionEndpoint;
+use Mollie\Api\Endpoints\TerminalEndpoint;
 use Mollie\Api\Endpoints\WalletEndpoint;
 use Mollie\Api\Exceptions\ApiException;
 use Mollie\Api\Exceptions\HttpAdapterDoesNotSupportDebuggingException;
@@ -45,7 +47,7 @@ class MollieApiClient
     /**
      * Version of our client.
      */
-    public const CLIENT_VERSION = "2.54.0";
+    public const CLIENT_VERSION = "2.58.0";
 
     /**
      * Endpoint of the remote API.
@@ -273,12 +275,19 @@ class MollieApiClient
     public $paymentLinks;
 
     /**
+     * RESTful Terminal resource.
+     *
+     * @var TerminalEndpoint
+     */
+    public $terminals;
+
+    /**
      * RESTful Onboarding resource.
      *
      * @var OrganizationPartnerEndpoint
      */
     public $organizationPartners;
-  
+
     /**
      * Manages Wallet requests
      *
@@ -322,6 +331,13 @@ class MollieApiClient
      * @var ClientEndpoint
      */
     public $clients;
+
+    /**
+     * RESTful Client resource.
+     *
+     * @var ClientLinkEndpoint
+     */
+    public $clientLinks;
 
     /**
      * @param \GuzzleHttp\ClientInterface|\Mollie\Api\HttpAdapter\MollieHttpAdapterInterface|null $httpClient
@@ -374,8 +390,10 @@ class MollieApiClient
         $this->paymentChargebacks = new PaymentChargebackEndpoint($this);
         $this->wallets = new WalletEndpoint($this);
         $this->paymentLinks = new PaymentLinkEndpoint($this);
+        $this->terminals = new TerminalEndpoint($this);
         $this->organizationPartners = new OrganizationPartnerEndpoint($this);
         $this->clients = new ClientEndpoint($this);
+        $this->clientLinks = new ClientLinkEndpoint($this);
     }
 
     protected function initializeVersionStrings()
