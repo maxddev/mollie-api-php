@@ -79,11 +79,13 @@ class PaymentMethod
      */
     public const KBC = "kbc";
 
+    public const KLARNA_ONE = "klarna";
+
     /**
      * @link https://www.mollie.com/en/payments/klarna-pay-later
      */
     public const KLARNA_PAY_LATER = "klarnapaylater";
-    
+
     /**
      * @link https://www.mollie.com/en/payments/klarna-pay-now
      */
@@ -124,9 +126,14 @@ class PaymentMethod
      * @link https://www.mollie.com/en/payments/sofort
      */
     public const SOFORT = "sofort";
-    
+
     /**
      * @link https://www.mollie.com/en/payments/in3
      */
     public const IN3 = "in3";
+
+    /**
+     * @link https://docs.mollie.com/point-of-sale/overview
+     */
+    public const POINT_OF_SALE = "pointofsale";
 }
