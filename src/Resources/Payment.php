@@ -848,6 +848,10 @@ class Payment extends BaseResource
             $methodPrice = $pricing->get('Worldwide');
         } elseif ($this->method == 'banktransfer') {
             $methodPrice = $pricing->get('Europe');
+        /*} elseif ($this->method == 'trustly') {
+            $methodPrice = $pricing->get('Europe');
+        } elseif ($this->method == 'satispay') {
+            $methodPrice = $pricing->get('Europe');*/
         } else {
             throw new ApiException('Unrecognized method: ' . $this->method);
         }
